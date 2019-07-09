@@ -14,6 +14,7 @@
           clearable
           label="手机号"
           placeholder="请输入手机号"
+          :error-message="errors.mobile"
         />
 
         <van-field
@@ -21,6 +22,7 @@
           type="password"
           label="密码"
           placeholder="请输入密码"
+          :error-message="errors.code"
           required
         />
       </van-cell-group>
@@ -43,13 +45,35 @@ export default {
         mobile: '15886761501',
         code: '123456'
       },
-      loginLoading: false // 控制登录按钮的 loading 状态
+      loginLoading: false, // 控制登录按钮的 loading 状态
+      errors: {
+        mobile: '',
+        code: ''
+      }
     }
   },
   methods: {
     async handleLogin () {
-      this.loginLoading = true
       try {
+        const { mobile, code } = this.user
+        const errors = this.errors
+
+        if (mobile.length) {
+          errors.mobile = ''
+        } else {
+          errors.mobile = '手机号不能为空'
+          return
+        }
+
+        if (code.length) {
+          errors.mobile = ''
+        } else {
+          errors.code = '验证码不能为空'
+          return
+        }
+
+        this.loginLoading = true
+
         const data = await login(this.user)
         this.$store.commit('setUser', data)
         // 这里先简单粗暴的跳转到首页
