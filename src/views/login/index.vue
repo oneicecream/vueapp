@@ -47,7 +47,7 @@ export default {
     return {
       user: { // 提交登录的表单数据
         mobile: '15886761501',
-        code: '123456'
+        code: '246810'
       },
       loginLoading: false, // 控制登录按钮的 loading 状态
       myErrors: {

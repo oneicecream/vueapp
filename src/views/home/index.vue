@@ -6,7 +6,11 @@
 
     <!-- 频道标签 -->
     <van-tabs class="channel-tabs" v-model="activeChannelIndex">
-      <van-tab title="标签 1">
+      <van-tab
+        v-for="channelItem in channels"
+        :key="channelItem.id"
+        :title="channelItem.name"
+      >
         <!-- 下拉刷新组件   isLoading 控制下拉的 loading 状态  refresh 下拉之后出发的事件-->
         <van-pull-refresh v-model="pullRefreshLoading" @refresh="onRefresh">
           <!--
@@ -29,9 +33,6 @@
           </van-list>
         </van-pull-refresh>
       </van-tab>
-      <van-tab title="标签 2">内容 2</van-tab>
-      <van-tab title="标签 3">内容 3</van-tab>
-      <van-tab title="标签 4">内容 4</van-tab>
     </van-tabs>
     <!-- /频道标签 -->
 
@@ -48,16 +49,22 @@
 
 <script>
 import { setTimeout } from 'timers'
+import { getUserChannels } from '@/api/channel'
 export default {
   name: 'HomeIndex',
   data () {
     return {
+      channels: [],
       activeChannelIndex: 0,
       list: [],
       loading: false,
       finished: false,
       pullRefreshLoading: false
     }
+  },
+
+  created () {
+    this.loadChannels()
   },
 
   methods: {
@@ -77,10 +84,26 @@ export default {
         }
       }, 500)
     },
+
     onRefresh () {
       setTimeout(() => {
         this.pullRefreshLoading = false
       }, 3000)
+    },
+
+    async loadChannels () {
+      try {
+        const localChannels = window.localStorage.getItem('channels')
+
+        // 如果有本地存储的频道列表，则使用本地的
+        if (localChannels) {
+          this.channels = localChannels
+        } else {
+          this.channels = (await getUserChannels()).channels
+        }
+      } catch (err) {
+
+      }
     }
   }
 }
@@ -98,6 +121,6 @@ export default {
   top: 92px;
 }
 .channel-tabs /deep/ .van-tabs__content {
-  margin-top: 92px;
+  margin-top: 100px;
 }
 </style>
