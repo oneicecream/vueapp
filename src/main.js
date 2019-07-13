@@ -11,8 +11,8 @@ import zhCN from 'vee-validate/dist/locale/zh_CN'
 Vue.use(VeeValidate, {
   // events: 'change'
 })
-Validator.localize('zh-CN', zhCN)
 Vue.use(Vant)
+Validator.localize('zh-CN', zhCN)
 
 Vue.prototype.$sleep = time => {
   return new Promise((resolve, reject) => {
