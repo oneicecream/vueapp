@@ -6,6 +6,9 @@
 
     <!-- 频道标签 -->
     <van-tabs class="channel-tabs" v-model="activeChannelIndex">
+      <div slot="nav-right"  class="wap-nav" @click="isChannelShow = true">
+        <van-icon name="wap-nav"></van-icon>
+      </div>
       <van-tab
         v-for="channelItem in channels"
         :key="channelItem.id"
@@ -46,7 +49,7 @@
     <!-- /底部导航 -->
 
     <!-- 频道组件 -->
-    <home-channel/>
+    <home-channel v-model="isChannelShow"/>
     <!-- /频道组件 -->
   </div>
 </template>
@@ -68,7 +71,8 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      pullRefreshLoading: false
+      pullRefreshLoading: false,
+      isChannelShow: false
     }
   },
 
@@ -255,6 +259,15 @@ export default {
   top: 92px;
 }
 .channel-tabs /deep/ .van-tabs__content {
-  margin-top: 100px;
+  margin-top: 92px;
+}
+
+.channel-tabs .wap-nav {
+  position: sticky;
+  right: 0;
+  display: flex;
+  align-items: center;
+  background: #fff;
+  opacity: .7;
 }
 </style>
