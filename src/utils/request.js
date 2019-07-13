@@ -7,7 +7,7 @@ import store from '@/store'
 // 例如有些项目中可能会涉及到使用不同的接口路径
 const request = axios.create({
   // 基础路径
-  baseURL: ' http://ttapi.research.itcast.cn/'
+  baseURL: 'http://ttapi.research.itcast.cn/'
   // baseURL: 'http://toutiao.course.itcast.cn'
 })
 
