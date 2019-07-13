@@ -65,6 +65,7 @@
 </template>
 
 <script>
+import { getAllChannels } from '@/api/channel'
 export default {
   name: 'HomeChannel',
   props: {
@@ -83,7 +84,22 @@ export default {
   },
   data () {
     return {
-      show: true
+      allChannels: []
+    }
+  },
+
+  created () {
+    this.loadAllChannels()
+  },
+
+  methods: {
+    async loadAllChannels () {
+      try {
+        const data = await getAllChannels()
+        this.allChannels = data.channels
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 }
