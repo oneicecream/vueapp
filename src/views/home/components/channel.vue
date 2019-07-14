@@ -23,7 +23,8 @@
             type="danger"
             plain
             size="mini"
-          >编辑</van-button>
+            @click="isEdit = !isEdit"
+          >{{ isEdit ? '完成' : '编辑' }}</van-button>
         </div>
       </div>
       <van-grid class="channel-content" :gutter="10" clickable>
@@ -33,9 +34,9 @@
           text="文字">
           <span
           class="text"
-          :class="{ active: index === activeIndex }"
+          :class="{ active: index === activeIndex && !isEdit }"
           >{{ item.name }}</span>
-          <!-- <van-icon class="close-icon" name="close" /> -->
+          <van-icon class="close-icon" v-show="isEdit" name="close" />
         </van-grid-item>
       </van-grid>
     </div>
@@ -85,7 +86,8 @@ export default {
   },
   data () {
     return {
-      allChannels: []
+      allChannels: [],
+      isEdit: false
     }
   },
 
