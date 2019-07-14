@@ -60,7 +60,8 @@
                     局部：filters 选项，只能在组件内部使用
                  -->
                 <span>{{ item.pubdate | relativeTime }}</span>
-                <van-icon class="close" name="close" />
+                <!-- 这是更多操作的点击按钮 -->
+                <van-icon class="close" name="close" @click="handleShowMoreAction(item)" />
             </p>
             </div>
 
@@ -97,7 +98,7 @@
     >
       <van-cell-group v-if="!toggleRubbish">
         <van-cell icon="arrow-left" />
-        <van-cell title="不感兴趣" />
+        <van-cell title="不感兴趣" @click="handleDislick" />
         <van-cell title="反馈垃圾内容" is-link @click="toggleRubbish = true" />
         <van-cell title="拉黑作者" />
       </van-cell-group>
@@ -132,8 +133,9 @@ export default {
       finished: false,
       pullRefreshLoading: false,
       isChannelShow: false, // 控制频道面板的显示状态
-      isMoreActionShow: true, // 控制更多操作弹框面板
-      toggleRubbish: false // 控制反馈垃圾弹框内容的显示
+      isMoreActionShow: false, // 控制更多操作弹框面板
+      toggleRubbish: false, // 控制反馈垃圾弹框内容的显示
+      currentArticle: null // 存储当前操作更多的文章
     }
   },
 
@@ -309,6 +311,19 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+
+    // 处理显示更多操作弹框面板
+    handleShowMoreAction (item) {
+      // 将点击操作更多的文章存储起来，用于后续使用
+      this.currentArticle = item
+
+      // 显示弹框
+      this.isMoreActionShow = true
+    },
+
+    async handleDislick () {
+
     }
   }
 }
