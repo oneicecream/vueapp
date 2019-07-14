@@ -7,10 +7,15 @@ import 'vant/lib/index.css'
 import 'amfe-flexible'
 import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
+import relativeTime from './filters/realtive-time'
+
+// 注册一个全局过滤器：处理相对时间
+Vue.filter('relativeTime', relativeTime)
 
 Vue.use(VeeValidate, {
   // events: 'change'
 })
+
 Vue.use(Vant)
 Validator.localize('zh-CN', zhCN)
 
