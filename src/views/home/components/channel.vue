@@ -31,7 +31,9 @@
         <van-grid-item
           v-for="(item, index) in userChannels"
           :key="item.id"
-          text="文字">
+          text="文字"
+          @click="handleUserChannelClick(item, index)"
+          >
           <span
           class="text"
           :class="{ active: index === activeIndex && !isEdit }"
@@ -145,6 +147,14 @@ export default {
         // 注意：本地存储数据无法像 js 数据变量去修改，要想改变只能完全重写
         window.localStorage.setItem('channels', JSON.stringify(channels))
       }
+    },
+    handleUserChannelClick (item, index) {
+      // 如果是非编辑状态，则是切换 tab 显示
+      if (!this.isEdit) {
+        this.$emit('update:active-index', index)
+        this.$emit('input', false)
+      }
+      // 如果是编辑状态，则是删除操作
     }
   }
 }
