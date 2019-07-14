@@ -107,6 +107,14 @@ export default {
     async loadAllChannels () {
       try {
         const data = await getAllChannels()
+        // 将获取到的频道数据统一处理成我们需要的数据格式
+        data.channels.forEach(item => {
+          item.articles = [] // 频道的文章
+          item.timestamp = Date.now()
+          item.finished = false // 控制该频道上拉加载是否加载完毕
+          item.upLoading = false // 控制该频道的下拉刷新
+          item.pullRefreshLoading = false // 控制频道列表的下拉刷新状态
+        })
         this.allChannels = data.channels
       } catch (err) {
         console.log(err)
