@@ -33,7 +33,15 @@
               :key="item.art_id"
               :title="item.title"
             >
-            <p slot="label">
+            <div slot="label">
+              <template v-if="item.cover.type">
+                <van-grid :border="false" :column-num="3">
+                  <van-grid-item v-for="(img, index) in item.cover.images" :key="index">
+                    <van-image :src="img" lazy-load />
+                  </van-grid-item>
+                </van-grid>
+              </template>
+              <p>
                 <span>{{ item.aut_name }}</span>
                 &nbsp;
                 <span>{{ item.comm_count }}评论</span>
@@ -53,6 +61,8 @@
                  -->
                 <span>{{ item.pubdate | relativeTime }}</span>
             </p>
+            </div>
+
             </van-cell>
           </van-list>
         </van-pull-refresh>
