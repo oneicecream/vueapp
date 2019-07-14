@@ -120,7 +120,12 @@ export default {
       //    但是引用类型除外
       //    即便是这样：也最好不要利用这个特点
       // 建议做法就是将数据传递给父组件，让父组件自己修改
-      this.userChannels.push(item)
+      // this.userChannels.push(item)
+      // 截取一个新的数组
+      const channels = this.userChannels.slice(0)
+      channels.push(item)
+
+      this.$emit('update:user-channels', channels)
     }
   }
 }
