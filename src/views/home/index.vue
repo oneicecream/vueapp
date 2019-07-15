@@ -30,7 +30,7 @@
           <!-- 列表中的内容-->
             <van-cell
               v-for="item in channelItem.articles"
-              :key="item.art_id"
+              :key="item.art_id.toString()"
               :title="item.title"
             >
             <div slot="label">
