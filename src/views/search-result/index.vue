@@ -48,6 +48,22 @@ export default {
     }
   },
 
+  watch: {
+    '$route' (to, from) {
+      // 对路由变化做出相应...
+    }
+  },
+
+  activated () {
+    this.loading = true
+    this.onLoad()
+  },
+
+  deactivated () {
+    this.articles = []
+    this.page = 1
+  },
+
   async created () {
     const data = await getSearch({
       q: this.$route.params.q,
