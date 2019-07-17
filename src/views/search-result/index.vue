@@ -55,13 +55,15 @@ export default {
   },
 
   activated () {
-    this.loading = true
-    this.onLoad()
+    // this.loading = true
+    // this.onLoad()
   },
 
   deactivated () {
-    this.articles = []
-    this.page = 1
+    // this.articles = []
+    // this.page = 1
+    this.$destroy()
+    // 手动完全销毁当前缓存组件
   },
 
   async created () {
