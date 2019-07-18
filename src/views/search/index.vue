@@ -29,12 +29,31 @@
     <van-cell-group v-else>
       <van-cell title="历史记录">
         <van-icon
+          v-show="!isDeleteShow"
           slot="right-icon"
           name="delete"
           style="line-height: inherit;"
+          @click="isDeleteShow = true"
         />
+        <div v-show="isDeleteShow">
+          <span style="margin-right : 10px" @click="searchHistories = []">全部删除</span>
+          <span @click="isDeleteShow = false">完成</span>
+        </div>
       </van-cell>
-      <van-cell v-for="item in searchHistories" :key="item" :title="item" />
+      <van-cell
+        v-for="(item, index) in searchHistories"
+        :key="item"
+        :title="item"
+      >
+        <van-icon
+          v-show="!isDeleteShow"
+          slot="right-icon"
+          name="close"
+          style="line-height: inherit;"
+          @click="searchHistories.splice(index, 1)"
+        >
+        </van-icon>
+      </van-cell>
     </van-cell-group>
     <!-- /历史记录 -->
   </div>
@@ -51,7 +70,8 @@ export default {
     return {
       searchText: '', // 搜索输入的文本
       suggestions: [], // 联想建议
-      searchHistories: JSON.parse(window.localStorage.getItem('search-histories')) // 搜索历史记录
+      searchHistories: JSON.parse(window.localStorage.getItem('search-histories')), // 搜索历史记录
+      isDeleteShow: false
     }
   },
 
@@ -71,7 +91,15 @@ export default {
       // 如果数据不为空，则请求联想建议自动补全
       const data = await getSuggestion(newVal)
       this.suggestions = data.options
-    }, 500)
+    }, 500),
+
+    searchHistories: {
+      handler () {
+        // 保存搜索历史记录
+        window.localStorage.setItem('search-histories', JSON.stringify([...new Set(this.searchHistories)]))
+      },
+      deep: true // 建议引用类型数据都配置为深度监视
+    }
   },
 
   deactivated () {
@@ -90,10 +118,7 @@ export default {
         return
       }
 
-      this.searchHistories.push(q)
-
-      // 保存搜索历史记录
-      window.localStorage.setItem('search-histories', JSON.stringify([...new Set(this.searchHistories)]))
+      this.searchHistories.unshift(q)
 
       // 跳转搜索页面
       this.$router.push({
