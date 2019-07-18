@@ -11,7 +11,7 @@
       <van-button
         :type="article.is_followed ? 'default' : 'danger'"
         :loading="isFollowLoading"
-        @click="handleFollow"
+        @click="$checkLogin() && handleFollow"
       >{{ article.is_followed ? '已关注' : '关注' }}</van-button>
     </div>
   </div>
@@ -35,6 +35,9 @@ export default {
   created () {},
   methods: {
     async handleFollow () {
+      if (!this.$checkLogin()) {
+        return
+      }
       this.isFollowLoading = true
       try {
         const authId = this.article.aut_id

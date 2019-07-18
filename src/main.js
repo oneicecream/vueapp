@@ -8,6 +8,7 @@ import 'amfe-flexible'
 import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import relativeTime from './filters/realtive-time'
+import checkLogin from './utils/check-login'
 
 // 注册 Vant 的图片懒加载自定义指令
 Vue.use(Lazyload)
@@ -27,6 +28,9 @@ Vue.prototype.$sleep = time => {
     window.setTimeout(resolve, time)
   })
 }
+
+// 将检查登录状态挂载到 Vue 原型对象上，这样的话任何组件就都可以使用了
+Vue.prototype.$checkLogin = checkLogin
 
 Vue.config.productionTip = false
 
