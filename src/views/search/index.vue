@@ -9,7 +9,7 @@
       />
     </form>
     <!-- 联想建议列表 -->
-    <van-cell-group>
+    <van-cell-group v-if="suggestions.length && searchText.length">
       <van-cell
         icon="search"
         v-for="item in suggestions"
@@ -26,7 +26,7 @@
 
     <!-- 历史记录 -->
 
-    <!-- <van-cell-group>
+    <van-cell-group v-else>
       <van-cell title="历史记录">
         <van-icon
           slot="right-icon"
@@ -34,7 +34,8 @@
           style="line-height: inherit;"
         />
       </van-cell>
-    </van-cell-group> -->
+      <van-cell v-for="item in searchHistories" :key="item" :title="item" />
+    </van-cell-group>
     <!-- /历史记录 -->
   </div>
 </template>
@@ -48,8 +49,9 @@ export default {
 
   data () {
     return {
-      searchText: '',
-      suggestions: []
+      searchText: '', // 搜索输入的文本
+      suggestions: [], // 联想建议
+      searchHistories: JSON.parse(window.localStorage.getItem('search-histories')) // 搜索历史记录
     }
   },
 
@@ -80,6 +82,16 @@ export default {
     },
 
     handleSearch (q) {
+      if (!q.length) {
+        return
+      }
+
+      this.searchHistories.push(q)
+
+      // 保存搜索历史记录
+      window.localStorage.setItem('search-histories', JSON.stringify([...new Set(this.searchHistories)]))
+
+      // 跳转搜索页面
       this.$router.push({
         name: 'search-result',
         params: {
