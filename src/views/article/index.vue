@@ -10,7 +10,7 @@
     <AuthInfo class="auto-info" :article="article" />
     <div class="article-content" v-html="article.content">
     </div>
-    <MoreAction />
+    <MoreAction :article="article" />
     <RecommendArticle />
     <RecommendSearch />
     <CommentList />
