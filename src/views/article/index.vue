@@ -6,37 +6,9 @@
       left-arrow
       @click-left="$router.back()"
     />
-    <h2 class="article-title">文章标题</h2>
-    <AuthInfo />
-    <div class="article-content">
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
-      <p>hello world</p>
+    <h2 class="article-title">{{ article.title }}</h2>
+    <AuthInfo class="auto-info" :article="article" />
+    <div class="article-content" v-html="article.content">
     </div>
     <MoreAction />
     <RecommendArticle />
@@ -55,6 +27,7 @@ import RecommendArticle from './components/recommend-article'
 import RecommendSearch from './components/recommend-search'
 import ReplyList from './components/reply-list'
 import WriteComment from './components/write-comment'
+import { getArticleDetail } from '@/api/article'
 
 export default {
   name: 'ArticleIndex',
@@ -66,6 +39,26 @@ export default {
     RecommendSearch,
     ReplyList,
     WriteComment
+  },
+  data () {
+    return {
+      article: {}
+    }
+  },
+
+  created () {
+    this.loadArticleDetail()
+  },
+
+  methods: {
+    async loadArticleDetail () {
+      try {
+        const data = await getArticleDetail(this.$route.params.articleId)
+        this.article = data
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 </script>
@@ -78,7 +71,7 @@ export default {
     font-weight: 400;
   }
   .article-content {
-    font-size: 25px;
+    font-size: 24px;
   }
   .auth-info {
     position: sticky;

@@ -24,3 +24,18 @@ export const addBlacklist = userId => request({
     target: userId
   }
 })
+
+// 关注用户
+export const followUser = userId => request({
+  method: 'POST',
+  url: '/app/v1_0/user/followings',
+  data: {
+    target: userId
+  }
+})
+
+// 取消关注用户
+export const unFollowUser = userId => request({
+  method: 'DELETE',
+  url: `/app/v1_0/user/followings/${userId}`
+})
