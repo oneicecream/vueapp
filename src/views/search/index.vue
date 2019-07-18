@@ -74,6 +74,10 @@ export default {
     }, 500)
   },
 
+  deactivated () {
+    this.$destroy()
+  },
+
   methods: {
     hightLight (text, keyword) {
       // toLowerCase() 转小写
