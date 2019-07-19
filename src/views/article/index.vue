@@ -13,8 +13,15 @@
     <MoreAction :article="article" />
     <!-- <RecommendArticle /> -->
     <!-- <RecommendSearch /> -->
-    <CommentList :article-id="$route.params.articleId" />
-    <ReplyList />
+    <CommentList
+      :source="$route.params.articleId.toString()"
+      @is-replylist-show="handelIsReplyListShow"/>
+    <!-- 回复列表组件 -->
+    <ReplyList
+      v-model="isReplyListShow"
+      :comment-id="commentId"
+    />
+    <!-- /回复列表组件 -->
     <WriteComment />
   </div>
 </template>
@@ -42,7 +49,9 @@ export default {
   },
   data () {
     return {
-      article: {}
+      article: {},
+      isReplyListShow: false, // 控制回复组件的显示状态
+      commentId: null // 点击回复的评论 id
     }
   },
 
@@ -58,6 +67,11 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+
+    handelIsReplyListShow (id) {
+      this.commentId = id
+      this.isReplyListShow = true
     }
   }
 }
