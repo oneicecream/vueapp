@@ -14,15 +14,16 @@
     <!-- <RecommendArticle /> -->
     <!-- <RecommendSearch /> -->
     <CommentList
-      :source="$route.params.articleId.toString()"
+      :source="articleId"
       @is-replylist-show="handelIsReplyListShow"/>
     <!-- 回复列表组件 -->
     <ReplyList
       v-model="isReplyListShow"
       :comment-id="commentId"
+      :article-id="articleId"
     />
     <!-- /回复列表组件 -->
-    <WriteComment />
+    <WriteComment :target="articleId" />
   </div>
 </template>
 
@@ -52,6 +53,22 @@ export default {
       article: {},
       isReplyListShow: false, // 控制回复组件的显示状态
       commentId: null // 点击回复的评论 id
+    }
+  },
+
+  // 当你出现要在某个后代组件中访问组件成员的时候，那么可以使用依赖注入的方式
+  // 使用方式：
+  // 1. 在组件中声明 provide 向后台提供数据
+  // 2. 然后在后代组件中使用 inject 声明接收祖先组件提供的数据
+  provide: function () {
+    return {
+      articleId: this.$route.params.articleId
+    }
+  },
+
+  computed: {
+    articleId () {
+      return this.$route.params.articleId.toString()
     }
   },
 
