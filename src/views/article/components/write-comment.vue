@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'WriteComment',
-  prop: {},
+  props: {},
   data () {
     return {
 

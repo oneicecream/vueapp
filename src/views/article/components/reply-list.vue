@@ -7,7 +7,7 @@
 <script>
 export default {
   name: 'ReplyList',
-  prop: {},
+  props: {},
   data () {
     return {
 
