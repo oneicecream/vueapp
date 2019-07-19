@@ -72,12 +72,12 @@ export default {
         }
         this.isDislikeLoading = true
         const articleId = this.article.art_id
-        // 如果已不喜欢，则取消已不喜欢
+        // 如果不喜欢，则取消不喜欢
         if (this.article.attitude === 0) {
           await unDislikeArticle(articleId)
           this.article.attitude = -1
         } else {
-          // 如果已取消不喜欢，则不喜欢
+          // 如果取消不喜欢，则不喜欢
           await dislikeArticle(articleId)
           this.article.attitude = 0
         }
