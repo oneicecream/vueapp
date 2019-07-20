@@ -60,3 +60,34 @@ export const getUserProfile = () => {
     url: `/app/v1_0/user/profile`
   })
 }
+
+// 编辑用户个人资料
+export const updateUserProfile = ({
+  name = null,
+  photo = null,
+  gender = null,
+  birthday = null,
+  realName = null,
+  idNumber = null,
+  idCardFront = null,
+  idCardBack = null,
+  idCardHandheld = null,
+  intro = null
+}) => {
+  return request({
+    method: 'PATCH',
+    url: `/app/v1_0/user/profile`,
+    data: {
+      name,
+      photo,
+      gender,
+      birthday,
+      real_name: realName,
+      id_number: idNumber,
+      id_card_front: idCardFront,
+      id_card_back: idCardBack,
+      id_card_handheld: idCardHandheld,
+      intro
+    }
+  })
+}

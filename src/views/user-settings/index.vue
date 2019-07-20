@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import { getUserProfile } from '@/api/user'
+import { getUserProfile, updateUserProfile } from '@/api/user'
 
 export default {
   name: 'UserSettings',
   data () {
     return {
-      user: { }
+      user: {}
     }
   },
 
@@ -46,8 +46,15 @@ export default {
       }
     },
 
-    handleSave () {
-
+    async handleSave () {
+      try {
+        const data = await updateUserProfile({
+          name: '就叫这个啦'
+        })
+        console.log(data)
+      } catch (err) {
+        this.$toast.fail('更新用户信息失败')
+      }
     }
   }
 }
