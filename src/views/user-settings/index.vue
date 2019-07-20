@@ -9,10 +9,11 @@
       @click-right="handleSave"
     />
     <van-cell-group>
-      <van-cell title="头像" is-link >
+      <van-cell title="头像" is-link @click="handleShowFile" >
         <div slot="default">
           <img style="width: 30px" :src="user.photo" alt="">
         </div>
+        <input ref="file" style="display: none;" type="file">
       </van-cell>
       <van-cell title="昵称" :value="user.name" is-link />
       <van-cell title="性别" :value="user.gender" is-link />
@@ -36,7 +37,20 @@ export default {
     this.loadUser()
   },
 
+  mounted () {
+    this.$refs['file'].addEventListener('change', this.handleFileChange)
+  },
+
   methods: {
+    handleFileChange () {
+      const file = this.$refs['file'].files[0]
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.addEventListener('load', () => {
+        this.user.photo = reader.result
+      })
+    },
+
     async loadUser () {
       try {
         const data = await getUserProfile()
@@ -48,13 +62,16 @@ export default {
 
     async handleSave () {
       try {
-        const data = await updateUserProfile({
-          name: '就叫这个啦'
-        })
+        const data = await updateUserProfile(this.user)
         console.log(data)
+        this.$toast.fail('更新成功')
       } catch (err) {
         this.$toast.fail('更新用户信息失败')
       }
+    },
+
+    handleShowFile () {
+      this.$refs['file'].click()
     }
   }
 }
