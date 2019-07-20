@@ -23,7 +23,11 @@
 </template>
 
 <script>
-import { getUserProfile, updateUserProfile } from '@/api/user'
+import {
+  getUserProfile,
+  updateUserProfile,
+  updateUserProfilePhoto
+} from '@/api/user'
 
 export default {
   name: 'UserSettings',
@@ -33,17 +37,23 @@ export default {
     }
   },
 
+  computed: {
+    file () {
+      return this.$refs['file']
+    }
+  },
+
   created () {
     this.loadUser()
   },
 
   mounted () {
-    this.$refs['file'].addEventListener('change', this.handleFileChange)
+    this.file.addEventListener('change', this.handleFileChange)
   },
 
   methods: {
     handleFileChange () {
-      const file = this.$refs['file'].files[0]
+      const file = this.file.files[0]
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.addEventListener('load', () => {
@@ -62,16 +72,36 @@ export default {
 
     async handleSave () {
       try {
-        const data = await updateUserProfile(this.user)
-        console.log(data)
-        this.$toast.fail('更新成功')
+        // 1.请求上传图片
+        const r1 = this.uploadPhoto()
+        // 2.请求更新用户信息
+        const r2 = updateUserProfile({
+          name: this.user.name,
+          gender: this.user.gender,
+          birthday: this.user.birthday
+        })
+
+        await Promise.all([r1, r2])
+
+        this.$toast('更新成功')
       } catch (err) {
         this.$toast.fail('更新用户信息失败')
       }
     },
 
+    uploadPhoto () {
+      // 《接口要求 Content-Type 为 multipart/form-data 的处理》
+      const formData = new FormData()
+      formData.append('photo', this.file.files[0])
+      return updateUserProfilePhoto(formData)
+    },
+
+    uploadUserProfile () {
+
+    },
+
     handleShowFile () {
-      this.$refs['file'].click()
+      this.file.click()
     }
   }
 }

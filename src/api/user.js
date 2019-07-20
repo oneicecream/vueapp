@@ -91,3 +91,21 @@ export const updateUserProfile = ({
     }
   })
 }
+
+// 编辑用户照片资料（头像、身份证照片）
+export const updateUserProfilePhoto = formData => {
+  return request({
+    method: 'PATCH',
+    url: `/app/v1_0/user/photo`,
+    // 如果是Content-Type 为 multipart/form-data 需要传递 FormData
+    data: formData
+
+    // 注意: 对象只适用于 Content-Type 为 application/json 的数据格式
+    // data: {
+    //   photo,
+    //   id_card_front: idCardFront,
+    //   id_card_back: idCardBack,
+    //   id_card_handheld: idCardHandheld
+    // }
+  })
+}
