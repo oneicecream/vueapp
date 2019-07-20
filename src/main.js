@@ -9,6 +9,9 @@ import VeeValidate, { Validator } from 'vee-validate'
 import zhCN from 'vee-validate/dist/locale/zh_CN'
 import relativeTime from './filters/realtive-time'
 import checkLogin from './utils/check-login'
+import AppTabbar from './components/app-tabbar'
+
+Vue.component('app-tabbar', AppTabbar)
 
 // 注册 Vant 的图片懒加载自定义指令
 Vue.use(Lazyload)
