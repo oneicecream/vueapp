@@ -9,22 +9,43 @@
       @click-right="handleSave"
     />
     <van-cell-group>
-      <van-cell title="头像" value="内容" />
-      <van-cell title="昵称" value="内容" />
-      <van-cell title="介绍" value="内容" />
-      <van-cell title="性别" value="内容" />
-      <van-cell title="生日" value="内容" />
+      <van-cell title="头像" is-link >
+        <div slot="default">
+          <img style="width: 30px" :src="user.photo" alt="">
+        </div>
+      </van-cell>
+      <van-cell title="昵称" :value="user.name" is-link />
+      <van-cell title="性别" :value="user.gender" is-link />
+      <van-cell title="生日" :value="user.birthday" is-link />
     </van-cell-group>
   </div>
 </template>
 
 <script>
+import { getUserProfile } from '@/api/user'
+
 export default {
   name: 'UserSettings',
   data () {
-
+    return {
+      user: { }
+    }
   },
+
+  created () {
+    this.loadUser()
+  },
+
   methods: {
+    async loadUser () {
+      try {
+        const data = await getUserProfile()
+        this.user = data
+      } catch (err) {
+        this.$toast.fail('加载用户信息失败')
+      }
+    },
+
     handleSave () {
 
     }
