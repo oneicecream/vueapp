@@ -72,8 +72,13 @@ export default {
 
     async handleSave () {
       try {
+        let r1 = Promise.resolve()
+
         // 1.请求上传图片
-        const r1 = this.uploadPhoto()
+        if (this.file.files[0]) {
+          r1 = this.uploadPhoto()
+        }
+
         // 2.请求更新用户信息
         const r2 = updateUserProfile({
           name: this.user.name,
